@@ -38,8 +38,7 @@ func main() {
 					Role:          "Interrupt",
 					Interruptible: pairist.InterruptibleHours("06:00", "12:00", "America/Los_Angeles"),
 					People: map[string]string{
-//						"Gaurab":  "U0A0ZUT43",
-"Gaurab": "U0PRG9U6M",
+						"Gaurab":  "U0A0ZUT43",
 						"Dale":    "U32RHRLE9",
 						"Rebecca": "U8YCN97Q9",
 						"Andrew":  "U17K4GAKW",
