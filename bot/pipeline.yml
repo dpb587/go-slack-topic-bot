@@ -1,0 +1,40 @@
+---
+resources:
+- name: code
+  type: git
+  source:
+    uri: https://github.com/dpb587/go-slack-topic-bot.git
+- name: trigger
+  type: time
+  source:
+    interval: 5m
+jobs:
+- name: run
+  serial: true
+  plan:
+  - aggregate:
+    - get: code
+      trigger: true
+    - get: trigger
+      trigger: true
+  - task: cfbosh
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: golang
+      inputs:
+      - name: code
+        path: src/github.com/dpb587/go-slack-topic-bot
+      run:
+        path: bash
+        dir: src/github.com/dpb587/go-slack-topic-bot
+        args:
+        - -c
+        - |
+          export GOPATH=$PWD/../../../..
+          exec go run main/cfbosh.go
+    params:
+      SLACK_TOKEN: ((cfbosh_slack_token))
+      SLACK_CHANNEL: ((cfbosh_slack_channel))
