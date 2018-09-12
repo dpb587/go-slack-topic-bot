@@ -5,13 +5,13 @@ import (
 )
 
 type Prefixer struct {
-	prefix   string
+	prefix  string
 	message Messager
 }
 
 func Prefix(prefix string, message Messager) Messager {
 	return Prefixer{
-		prefix: prefix,
+		prefix:  prefix,
 		message: message,
 	}
 }

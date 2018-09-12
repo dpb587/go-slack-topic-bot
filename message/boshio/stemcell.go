@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/pkg/errors"
 	"github.com/dpb587/go-slack-topic-bot/message"
+	"github.com/pkg/errors"
 )
 
 type Stemcell struct {

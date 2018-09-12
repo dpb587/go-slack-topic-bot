@@ -8,7 +8,7 @@ import (
 
 type Joiner struct {
 	delimiter string
-	messages []Messager
+	messages  []Messager
 }
 
 var _ Messager = &Joiner{}
@@ -16,7 +16,7 @@ var _ Messager = &Joiner{}
 func Join(delimiter string, templates ...Messager) Messager {
 	return Joiner{
 		delimiter: delimiter,
-		messages: templates,
+		messages:  templates,
 	}
 }
 
