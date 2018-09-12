@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/dpb587/go-slack-topic-bot/message"
 	"github.com/dpb587/go-slack-topic-bot/message/boshio"
@@ -19,7 +20,7 @@ func main() {
 				" ",
 				pairist.PeopleInRole{
 					Team:          "sf-bosh",
-					Role: "interrupt",
+					Role:          "interrupt",
 					Interruptible: pairist.InterruptibleHours("12:00", "18:00", "America/Los_Angeles"),
 					People: map[string]string{
 						"Luan":    "U02R9SUJX",
@@ -66,7 +67,7 @@ func main() {
 
 	log.Printf("DEBUG: expected message: %s", msg)
 
-	err = slack.UpdateChannelTopic("CCR5PN34Z", msg)
+	err = slack.UpdateChannelTopic(os.Getenv("SLACK_CHANNEL"), msg)
 	if err != nil {
 		log.Panicf("ERROR: %v", err)
 	}
