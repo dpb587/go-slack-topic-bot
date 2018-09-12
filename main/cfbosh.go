@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"os"
 
 	"github.com/dpb587/go-slack-topic-bot/message"
 	"github.com/dpb587/go-slack-topic-bot/message/boshio"
@@ -18,19 +17,34 @@ func main() {
 			"_interrupt_ ",
 			message.Join(
 				" ",
-				pairist.Interrupt{
+				pairist.PeopleInRole{
 					Team:          "sf-bosh",
+					Role: "interrupt",
 					Interruptible: pairist.InterruptibleHours("12:00", "18:00", "America/Los_Angeles"),
 					People: map[string]string{
-						"Luan":    "luan",
-						"Josh R":  "jrussett",
-						"Josh":    "jaresty",
-						"Danny":   "dberger",
-						"Mike":    "mxu",
-						"Jim":     "jfmyers9",
-						"Morgan":  "mfine",
-						"Belinda": "belinda_liu",
-						"Max":     "mpetersen",
+						"Luan":    "U02R9SUJX",
+						"Josh R":  "U8DLATS12",
+						"Josh":    "U0YGVGTM1",
+						"Danny":   "U0FUK0EBH",
+						"Mike":    "U21JVA9F0",
+						"Jim":     "U02QZ1E3G",
+						"Morgan":  "U04V9L81Y",
+						"Belinda": "U5EJ8MQUW",
+						"Max":     "U4FFS1UAK",
+					},
+				},
+				pairist.PeopleInRole{
+					Team:          "boshto",
+					Role:          "Interrupt",
+					Interruptible: pairist.InterruptibleHours("06:00", "12:00", "America/Los_Angeles"),
+					People: map[string]string{
+//						"Gaurab":  "U0A0ZUT43",
+"Gaurab": "U0PRG9U6M",
+						"Dale":    "U32RHRLE9",
+						"Rebecca": "U8YCN97Q9",
+						"Andrew":  "U17K4GAKW",
+						"Fred":    "UA3MK3AE7",
+						"Jamil":   "U0717EQ04",
 					},
 				},
 			),
@@ -53,7 +67,7 @@ func main() {
 
 	log.Printf("DEBUG: expected message: %s", msg)
 
-	err = slack.UpdateChannelTopic(os.Getenv("SLACK_CHANNEL"), msg)
+	err = slack.UpdateChannelTopic("CCR5PN34Z", msg)
 	if err != nil {
 		log.Panicf("ERROR: %v", err)
 	}
