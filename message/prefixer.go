@@ -4,21 +4,21 @@ import (
 	"fmt"
 )
 
-type Prefixer struct {
+type prefixer struct {
 	prefix  string
 	message Messager
 }
 
 func Prefix(prefix string, message Messager) Messager {
-	return Prefixer{
+	return prefixer{
 		prefix:  prefix,
 		message: message,
 	}
 }
 
-var _ Messager = &Prefixer{}
+var _ Messager = &prefixer{}
 
-func (m Prefixer) Message() (string, error) {
+func (m prefixer) Message() (string, error) {
 	msg, err := m.message.Message()
 	if err != nil {
 		return "", err

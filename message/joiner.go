@@ -6,21 +6,21 @@ import (
 	"github.com/pkg/errors"
 )
 
-type Joiner struct {
+type joiner struct {
 	delimiter string
 	messages  []Messager
 }
 
-var _ Messager = &Joiner{}
+var _ Messager = &joiner{}
 
 func Join(delimiter string, templates ...Messager) Messager {
-	return Joiner{
+	return joiner{
 		delimiter: delimiter,
 		messages:  templates,
 	}
 }
 
-func (m Joiner) Message() (string, error) {
+func (m joiner) Message() (string, error) {
 	var msgs []string
 
 	for tplIdx, tpl := range m.messages {

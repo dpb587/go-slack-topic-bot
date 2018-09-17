@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"sort"
 	"strings"
-	"time"
 
 	"github.com/dpb587/go-pairist/api"
 	"github.com/dpb587/go-pairist/denormalized"
@@ -12,19 +11,14 @@ import (
 )
 
 type PeopleInRole struct {
-	Team          string
-	Role          string
-	People        map[string]string
-	Interruptible func() bool
+	Team   string
+	Role   string
+	People map[string]string
 }
 
 var _ message.Messager = &PeopleInRole{}
 
 func (m PeopleInRole) Message() (string, error) {
-	if !m.Interruptible() {
-		return "", nil
-	}
-
 	curr, err := api.DefaultClient.GetTeamCurrent(m.Team)
 	if err != nil {
 		return "", err
@@ -49,25 +43,4 @@ func (m PeopleInRole) Message() (string, error) {
 	sort.Strings(handles)
 
 	return strings.Join(handles, " "), nil
-}
-
-func InterruptibleHours(start, stop, tzName string) func() bool {
-	tz, err := time.LoadLocation(tzName)
-	if err != nil {
-		panic(err)
-	}
-
-	return func() bool {
-		now := time.Now().In(tz)
-
-		dt := now.Format("Mon")
-
-		if dt == "Sat" || dt == "Sun" {
-			return false
-		}
-
-		ts := now.Format("15:04")
-
-		return ts >= start && ts < stop
-	}
 }
