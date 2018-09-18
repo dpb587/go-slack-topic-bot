@@ -1,16 +1,18 @@
 package github
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
 	"net/http"
+	"context"
+	"fmt"
 
 	"github.com/dpb587/go-slack-topic-bot/message"
 	"github.com/pkg/errors"
+	"github.com/google/go-github/github"
+	"golang.org/x/oauth2"
 )
 
 type Release struct {
+	Token string
 	Alias string
 	Owner string
 	Name  string
@@ -18,31 +20,30 @@ type Release struct {
 
 var _ message.Messager = &Release{}
 
-type gitHubReleaseApiV2 []struct {
-	Name string `json:"name"`
-}
-
 func (m Release) Message() (string, error) {
-	res, err := http.DefaultClient.Get(fmt.Sprintf("https://api.github.com/repos/%s/%s/releases", m.Owner, m.Name))
+	ctx := context.Background()
+
+	var client = http.DefaultClient
+
+	if m.Token != "" {
+		client = oauth2.NewClient(
+			ctx,
+			oauth2.StaticTokenSource(&oauth2.Token{AccessToken: m.Token}),
+		)
+	}
+
+	gh := github.NewClient(client)
+
+	// list all repositories for the authenticated user
+
+	rels, _, err := gh.Repositories.ListReleases(ctx, m.Owner, m.Name, nil)
 	if err != nil {
-		return "", err
+		return "", errors.Wrap(err, "listing releases")
 	}
 
-	resBodyBytes, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return "", errors.Wrap(err, "reading response")
-	}
+  for _, rel := range rels {
+	  return fmt.Sprintf("%s/%s", m.Alias, *rel.Name), nil
+  }
 
-	var data gitHubReleaseApiV2
-
-	err = json.Unmarshal(resBodyBytes, &data)
-	if err != nil {
-		return "", errors.Wrap(err, "unmarshalling")
-	}
-
-	if len(data) == 0 {
-		return "", nil
-	}
-
-	return fmt.Sprintf("%s/%s", m.Alias, data[0].Name), nil
+  return "", nil
 }
