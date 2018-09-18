@@ -61,7 +61,6 @@ func main() {
 				boshio.Release{Alias: "bosh", Repository: "github.com/cloudfoundry/bosh"},
 				github.Release{Alias: "bosh-cli", Owner: "cloudfoundry", Name: "bosh-cli"},
 				boshio.Stemcell{Alias: "ubuntu-xenial", Name: "bosh-aws-xen-hvm-ubuntu-xenial-go_agent"},
-				boshio.Stemcell{Alias: "ubuntu-trusty", Name: "bosh-aws-xen-hvm-ubuntu-trusty-go_agent"},
 			),
 		),
 	).Message()
