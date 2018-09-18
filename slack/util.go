@@ -16,10 +16,10 @@ func UpdateChannelTopic(channel, msg string) error {
 		return errors.Wrap(err, "getting channel info")
 	}
 
-	log.Printf("DEBUG: current channel topic: %s", channelInfo.Topic.Value)
+	log.Printf("DEBUG: current topic: %s", channelInfo.Topic.Value)
 
 	if channelInfo.Topic.Value == msg {
-		log.Printf("DEBUG: channel topic already set")
+		log.Printf("DEBUG: no change needed")
 
 		return nil
 	}
@@ -29,7 +29,7 @@ func UpdateChannelTopic(channel, msg string) error {
 		return errors.Wrap(err, "setting topic")
 	}
 
-	log.Printf("INFO: channel topic updated: %s", newTopic)
+	log.Printf("INFO: updated topic: %s", newTopic)
 
 	return nil
 }
