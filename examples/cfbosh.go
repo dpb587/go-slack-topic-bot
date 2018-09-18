@@ -59,7 +59,7 @@ func main() {
 			message.Join(
 				" ",
 				boshio.Release{Alias: "bosh", Repository: "github.com/cloudfoundry/bosh"},
-				github.Release{Alias: "bosh-cli", Owner: "cloudfoundry", Name: "bosh-cli"},
+				github.AuthenticatedRelease{Token: os.Getenv("GITHUB_TOKEN"), Alias: "bosh-cli", Owner: "cloudfoundry", Name: "bosh-cli"},
 				boshio.Stemcell{Alias: "ubuntu-xenial", Name: "bosh-aws-xen-hvm-ubuntu-xenial-go_agent"},
 			),
 		),
